@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  sm.bltest1:
+    image: ${DOCKER_REGISTRY-}sm
+    build:
+      context: .
+      dockerfile: SM.BLTest/SM.BLTest1/Dockerfile
