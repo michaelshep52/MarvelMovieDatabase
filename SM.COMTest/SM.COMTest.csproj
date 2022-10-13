@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SM.BL\SM.BL.cs.csproj" />
+    <ProjectReference Include="..\SM.COM.cs\SM.COM.cs.csproj" />
+    <ProjectReference Include="..\SM.BL\SM.BL.cs.csproj" />
   </ItemGroup>
 </Project>

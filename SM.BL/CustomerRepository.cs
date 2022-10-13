@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SM.BL.cs;
+
 namespace SM.BL
 {
-    public class CustomerRepository
+    public class CustomerRepository 
     {
         public CustomerRepository()
         {
+            addressRepository = new AddressRepository();
         }
+        private AddressRepository addressRepository { get; set; }
+
         //Retrieve
 
         public Customer Retrieve(int customerId)
@@ -22,6 +27,7 @@ namespace SM.BL
                 customer.EmailAddress = "mshepherd@got.you";
                 customer.FirstName = "Michael";
                 customer.LastName = "Shepherd";
+                customer.AddressList = addressRepository.RetrieveByCustomerId(customerId).ToList();
             }
             return customer;
         }

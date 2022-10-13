@@ -3,23 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft;
+using SM.BL.cs;
+using SM.COM.cs;
 
 namespace SM.BL
 {
-    public class Customer
+    public class Customer : EntityBase, ILoggable
     {
-        public Customer() //default contructor (ctor)
+
+        public Customer(): this(0)  //default contructor (ctor)
         {
 
         }
         public Customer(int customerId) //overload contructor.
         {
             CustomerId = customerId;
+            AddressList = new List<Address>();
         }
         public int CustomerId { get; private set;}//Fetch snippet (propg)
-        
+        public List<Address> AddressList { get; set; }
         public string EmailAddress { get; set; } //fetched from snippets (prop)
-
         public string FirstName { get; set; }  //Here are two different ways
 
         private string _lastName;       //(backing field) //To write the same code.
@@ -51,11 +55,25 @@ namespace SM.BL
             }
         }
         public static int InstanceCount { get; set; }
+        public object EntityState { get; private set; }
+
+        /* public string Log()
+         {
+             var LogString = CustomerId + ": " +
+                             FullName + " " +
+                             "Email: " + EmailAddress + " " +
+                             "Status: " + EntityState.ToString();
+             return LogString;
+         }
+                                OR Written:*/
+        public string Log() =>
+             $"{CustomerId}: {FullName} Email: {EmailAddress} Status: {EntityState.ToString()}";
 
 
+        public override string ToString() => FullName;
 
         //Validate
-        public bool Validate() //Validated customer data.
+        public override bool Validate() //Validated customer data.
         {
             var isValid = true;
             if (string.IsNullOrWhiteSpace(LastName)) isValid = false;
@@ -63,7 +81,9 @@ namespace SM.BL
             if (string.IsNullOrWhiteSpace(EmailAddress)) isValid = false;
 
             return isValid;
+         
         }
+
     }
 }
 

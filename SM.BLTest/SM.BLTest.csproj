@@ -17,6 +17,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SM.BL\SM.BL.csproj" />
+    <ProjectReference Include="..\SM.BL\SM.BL.cs.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.AssemblyInfo.cs" />
+    <Compile Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs" />
+    <Compile Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.GlobalUsings.g.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.AssemblyInfoInputs.cache" />
+    <None Remove="ShepMovie.CommonTest\SM.CommonTest\bin\Debug\net6.0\CoverletSourceRootsMapping" />
+    <None Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.csproj.AssemblyReference.cache" />
+    <None Remove="ShepMovie.CommonTest\SM.CommonTest\obj\Debug\net6.0\SM.CommonTest.assets.cache" />
   </ItemGroup>
 </Project>
