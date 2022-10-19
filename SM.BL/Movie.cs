@@ -20,16 +20,13 @@ namespace SM.BL
         {
             MovieId = MovieId;
         }
-        public decimal? CurrentPrice { get; set; }
+ 
         public string MovieDecription { get; set; }
         public string MovieLength { get; set; }
         public int MovieId { get; private set; }
         public string MovieGenre { get; set; }
-        public string MovieCurrentPrice { get; internal set; }
-
+        public string MovieStreaming { get; private set; }
         private string _movieName;
-        private object CurrrentPrice;
-
         public string MovieName
         {
             get
@@ -50,13 +47,10 @@ namespace SM.BL
         public override string ToString() => MovieName;
         
         //Validate product
-        public override bool Validate()
+        public override bool ValidateData()
         {
             var isValid = true;
-
             if (string.IsNullOrWhiteSpace(MovieName)) isValid = false;
-            if (CurrrentPrice == null) isValid = false;
-
             return isValid;
         }
 

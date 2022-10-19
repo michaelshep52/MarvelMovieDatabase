@@ -13,9 +13,9 @@ namespace SM.BL.cs
         public bool IsNew { get; private set; }            //propg
         public bool IsValid //or => Validate();
         {
-            get { return Validate(); }
+            get { return ValidateData(); }
         }
-        public abstract bool Validate();
+        public abstract bool ValidateData();
         
     }
 }

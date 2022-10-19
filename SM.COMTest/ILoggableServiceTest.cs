@@ -15,7 +15,7 @@ public class ILoggableServiceTest
         // Arrange
         var changedItems = new List<ILoggable>();
 
-        var customer = new Customer(1)
+        var customer = new Username(1)
         {
             EmailAddress = "mshepherd@got.you",
             FirstName = "Michael",
