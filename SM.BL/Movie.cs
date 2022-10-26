@@ -12,22 +12,19 @@ namespace SM.BL
 {
     public class Movie : EntityBase, ILoggable //This is how to inherit from base class. : EntityBase and interface ILoggable
     {
-        public Movie()
-        {
-
-        }
         public Movie(int movieId)
         {
             MovieId = MovieId;
         }
  
-        public string MovieDecription { get; set; }
-        public string MovieLength { get; set; }
         public int MovieId { get; private set; }
-        public string MovieGenre { get; set; }
-        public string MovieStreaming { get; private set; }
         private string _movieName;
-        public string MovieName
+        public string Genre { get; set; }
+        public string RunTime { get; set; }
+        public string Year {get; set; }
+        public string Decription { get; set; }
+        public string Streaming { get; private set; }
+        public string Name
         {
             get
             {
@@ -38,6 +35,16 @@ namespace SM.BL
             {
                 _movieName = value;
             }
+        }
+        public Movie(string Name, string Genre, int RunTime, int Year, string Decription, string Streaming)
+        {
+            this.Name = Name;
+            this.Genre = Genre;
+            this.RunTime = RunTime;
+            this.Year = Year;
+            this.Decription = Decription;
+            this.Streaming = Streaming;
+
         }
 
         public string Log() =>
