@@ -10,7 +10,7 @@ using SM.Common.cs;
 
 namespace SM.BL
 {
-    public class Movie : EntityBase, ILoggable //This is how to inherit from base class. : EntityBase and interface ILoggable
+    public class Movie 
     {
         public Movie(int movieId)
         {
@@ -40,26 +40,26 @@ namespace SM.BL
         {
             this.Name = Name;
             this.Genre = Genre;
-            this.RunTime = RunTime;
-            this.Year = Year;
+            this.RunTime = RunTime.ToString();
+            this.Year = Year.ToString();
             this.Decription = Decription;
             this.Streaming = Streaming;
 
         }
 
-        public string Log() =>
-             $"{MovieId}: {MovieName} Genre: {MovieGenre}  + Detail: {MovieDecription} Status: {EntityState.ToString()}";
+        //public string Log() =>
+         //    $"{MovieId}: {MovieName} Genre: {MovieGenre}  + Detail: {MovieDecription} Status: {EntityState.ToString()}";
 
 
-        public override string ToString() => MovieName;
+        //public override string ToString() => MovieName;
         
         //Validate product
-        public override bool ValidateData()
+       /* public override bool ValidateData()
         {
             var isValid = true;
             if (string.IsNullOrWhiteSpace(MovieName)) isValid = false;
             return isValid;
-        }
+        } */
 
         private string GetDebuggerDisplay()
         {
