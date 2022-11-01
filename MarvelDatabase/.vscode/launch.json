@@ -10,11 +10,11 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/SM.BLTest/bin/Debug/net6.0/SM.BLTest.dll",
+            "program": "${workspaceFolder}/bin/Debug/net6.0/MarvelDatabase.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/SM.BLTest",
+            "cwd": "${workspaceFolder}",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
+            "console": "integratedTerminal",
             "stopAtEntry": false
         },
         {

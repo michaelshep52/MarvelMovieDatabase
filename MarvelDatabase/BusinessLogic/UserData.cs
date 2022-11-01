@@ -1,47 +1,43 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Net.Mail;
 
-namespace SM.BL.cs
+namespace BusinessLogic
 {
-    public class UserData : EntityBase
+    public class UserData
     {
+        public UserData(): this(0)
+        {
+
+        }
         public UserData(int userId)
         {
             UserId = userId;
         }
-
-        public UserData()
-        {
-        }
-
+        
         public int UserId { get; private set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string EmailAddress { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string FullName
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+   
+        public UserData(int UserId, string Username, string Password, string EmailAddress, string FirstName, string LastName)
         {
-            get
-            {
-                string fullName = FirstName + LastName;
-                if (!string.IsNullOrWhiteSpace(FirstName))
-                {
-                    if (!string.IsNullOrWhiteSpace(fullName))
-                    {
-                        fullName += " ";
-                    }
-                    fullName += FirstName;
-                }
-
-                return fullName;
-            }
+            this.UserId = UserId;
+            this.Username = Username;
+            this.Password = Password;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+        }
+        public void getUserInfo()
+        {
+            Console.WriteLine($"Your Account information: {FirstName} {LastName} {EmailAddress} {Username}");
         }
 
-        public override bool ValidateData()
+        public bool ValidateData()
         {
             var isValid = true;
             if (string.IsNullOrWhiteSpace(FirstName)) throw new ArgumentNullException("First name is required.");
@@ -74,6 +70,7 @@ namespace SM.BL.cs
             string[] inappropriateWords = { "Dick", "Ass", "Retard", "Cunt", "Shitty" };
             throw new ArgumentException("Username can not contain inappropriate words.");
         }
+        
     }
 }
 

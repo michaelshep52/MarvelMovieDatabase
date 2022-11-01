@@ -1,0 +1,82 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using BusinessLogic;
+
+namespace Reader 
+{
+    public class CSVReader
+    {
+       /* public MovieData ReadMovieFromCsvLine(string csvLine)
+        {
+            string[] parts = csvLine.Split(new char[] { ';' });
+
+            string Title = parts[0];
+            string Genre = parts[1];
+            string RunTime = parts[2];
+            string Year = parts[3];
+            string Decription = parts[4];
+            string Streaming = parts[5];
+
+            return new MovieData(Title, Genre, RunTime, Year, Decription, Streaming);
+        }
+    }
+
+   
+
+    class CSVReader : CsvReader
+    {
+        private string _csvFilePath;
+        string csvFilePath = "MCUMovies.csv.rtf";
+        public CSVReader(string csvFilePath)
+		{
+			this._csvFilePath = csvFilePath;
+		}
+        public MovieData[] ReadFirstNMovies(int nMovies)
+		{
+			GetMovieData[] movies = new MovieData[nMovies];
+
+			using (StreamReader sr = new StreamReader(_csvFilePath))
+			{
+				// read header line
+				sr.ReadLine();
+
+				for (int i = 0; i < nMovies; i++)
+				{
+					string csvLine = sr.ReadLine();
+					movies[i] = ReadMovieFromCsvLine(csvLine);
+				}
+			}
+
+			return movies;
+		}
+
+        static void GetMovieData()
+        {
+               try 
+                {
+                    ReadFileFromFilePath();
+                }
+                catch(FileNotFoundException ex)
+                {
+                    FixFileNotFound();
+                }
+                catch(Exception ex)
+                {
+                    ReportError(ex);
+                    throw;
+                }
+                
+        }
+        static void MovieData()
+        {
+            if (entries > 6)
+            {
+               throw new ArgumentException("File path can only accept 6 or less");
+            }
+        }*/
+    }
+}
