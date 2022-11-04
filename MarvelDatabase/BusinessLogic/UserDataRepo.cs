@@ -6,7 +6,7 @@ using System.Net.Mail;
 
 namespace BusinessLogic
 {
-    public class UserDataRepository
+    public class UserDataRepository : UserData
     {
 
         public UserData Retrieve(int UserId)
@@ -22,11 +22,11 @@ namespace BusinessLogic
             }
             return userData;
         }
-
         //Save
         public bool save(UserData userData)
         {
             return true;
         }
+        
     }
 }
