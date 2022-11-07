@@ -8,69 +8,82 @@ namespace BusinessLogic
 {
     public class UserData
     {
-        public UserData(): this(0)
+        public UserData()
         {
 
         }
-        public UserData(int userId)
+        private string _FirstName;
+        private string _LastName;
+        private string _EmailAddress;
+        private string _Username;
+        private string _Password;
+        public UserData(string FirstName, string LastName, string EmailAddress, string Username, string Password)
         {
-            UserId = userId;
+        _FirstName = FirstName;
+        _LastName = LastName;
+        _EmailAddress = EmailAddress;
+        _Username = Username;
+        _Password = Password;
         }
-        
-        public int UserId { get; private set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        public string? EmailAddress { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-   
-        public UserData(int UserId, string Username, string Password, string EmailAddress, string FirstName, string LastName)
+        public string GetFirstName()
         {
-            this.UserId = UserId;
-            this.Username = Username;
-            this.Password = Password;
-            this.FirstName = FirstName;
-            this.LastName = LastName;
+            return _FirstName;
         }
-        public void getUserInfo()
+        public void SetFirstName(string FirstName)
         {
-            Console.WriteLine($"Your Account information: {FirstName} {LastName} {EmailAddress} {Username}");
+            _FirstName = FirstName;
         }
-
-        public bool ValidateData()
+        public string GetLastName()
         {
-            var isValid = true;
-            if (string.IsNullOrWhiteSpace(FirstName)) throw new ArgumentNullException("First name is required.");
-            if (string.IsNullOrWhiteSpace(LastName)) throw new ArgumentNullException("Last name is required.");
-            if (string.IsNullOrWhiteSpace(EmailAddress)) throw new ArgumentNullException("EmailAddress is required.");
-            if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentNullException("Username is required.");
-            if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentNullException("Password is required.");
-
+            return _LastName;
+        }
+        public void SetLastName(string LastName)
+        {
+            _LastName = LastName;
+        }
+        public string GetEmailAddress()
+        {
+            return _EmailAddress;
+        }
+        public void SetEmailAddress(string EmailAddress)
+        {
+            _EmailAddress = EmailAddress;
+        }
+        public string GetUsername()
+        {
+            return _Username;
+        }
+        public void SetUsername(string Username)
+        {
+            _Username = Username;
+        }
+        public string GetPassword()
+        {
+            return _Password;
+        }
+        public void SetPassword(string Password)
+        {
+            _Password = Password;
+        }  
+        public UserData Retrieve() 
+        {
+            return new UserData();
+        }
+        public bool Save()
+        {
+            return true;
+        }
+        public bool Validate()
+        {
+            var isValid = true; 
+            
+            if(string.IsNullOrWhiteSpace(_FirstName)) isValid = false;
+            if(string.IsNullOrWhiteSpace(_LastName)) isValid = false;
+            if(string.IsNullOrWhiteSpace(_EmailAddress)) isValid = false;
+            if(string.IsNullOrWhiteSpace(_Username)) isValid = false;
+            if(string.IsNullOrWhiteSpace(_Password)) isValid = false;
             return isValid;
-
         }
-        private bool ValidateUsername(string username, string password)
-        {
-            const int MinUsernameLength = 10; if (username.Length < MinUsernameLength) return false;
-            const int MinPasswordLength = 6; if (password.Length < MinPasswordLength) return false;
-            const int MaxUsernameLength = 20; if (username.Length > MaxUsernameLength) return false;
-            const int MaxPasswordLength = 25; if (password.Length > MaxPasswordLength) return false;
-
-            bool ContainsLettersNumbers = username.All(char.IsLetterOrDigit) | password.All(char.IsLetterOrDigit);
-            if (!ContainsLettersNumbers) return false;
-
-
-            if (ContainsInappropriateWords(username, password)) return false;
-
-            return ValidateUsername(username, password);
-        }
-
-        private bool ContainsInappropriateWords(string username, string password)
-        {
-            string[] inappropriateWords = { "Dick", "Ass", "Retard", "Cunt", "Shitty" };
-            throw new ArgumentException("Username can not contain inappropriate words.");
-        }
-        
     }
 }
 
