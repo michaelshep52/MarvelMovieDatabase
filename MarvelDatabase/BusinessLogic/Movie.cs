@@ -10,6 +10,7 @@ namespace BusinessLogic
 {
     public class Movie 
     {
+        public int Id;
         public string Title;
         public string Genre;
         public double RunTime;
@@ -20,36 +21,25 @@ namespace BusinessLogic
         {
            string[] data = rowData.Split(';');
            // Parse Data into properties
-           this.Title = data[0];
-           this.Genre = data[1];
-           this.RunTime = Convert.ToDouble(data[2]);
-           this.Year = Convert.ToDouble(data[3]);
-           this.Description = data[4];
-           this.Streaming = data[5];
+           this.Id = Convert.ToInt32(data[0]);
+           this.Title = data[1];
+           this.Genre = data[2];
+           this.RunTime = Convert.ToDouble(data[3]);
+           this.Year = Convert.ToDouble(data[4]);
+           this.Description = data[5];
+           this.Streaming = data[6];
         }
 
         public override string ToString()
         {
-            string mov = $"{Title} " +
+            string mov = $"{Id}" +
+                $"\n{Title} " +
                 $"\nGenre: {Genre} " +
-                $"\nLength: {RunTime} " +
+                $"\nLength: {RunTime} minutes" +
                 $"\nRelease year: {Year} " +
                 $"\nDetails: {Description} " +
-                $"\nStream: {Streaming}.";
+                $"\nStream now: {Streaming}.";
             return mov;
-        }
-    
-        public bool Save()
-        {
-            return true;
-        }
-
-        public bool Validate()
-        {
-            var isValid = true; 
-            
-            if(string.IsNullOrWhiteSpace(Title)) isValid = false;
-            return isValid;
         }
     }
 }

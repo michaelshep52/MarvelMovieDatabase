@@ -1,3 +1,4 @@
+using System.Security.AccessControl;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
@@ -8,63 +9,30 @@ namespace BusinessLogic
 {
     public class UserData
     {
-        public UserData()
-        {
+        public string? FirstName { get; set;}
+        public string? LastName { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        
+        public UserData() { }
 
-        }
-        private string _FirstName;
-        private string _LastName;
-        private string _EmailAddress;
-        private string _Username;
-        private string _Password;
-        public UserData(string FirstName, string LastName, string EmailAddress, string Username, string Password)
+        public UserData(string firstName, string lastName, string emailAddress, string username, string password)
         {
-        _FirstName = FirstName;
-        _LastName = LastName;
-        _EmailAddress = EmailAddress;
-        _Username = Username;
-        _Password = Password;
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = emailAddress;
+            Username = username;
+            Password = password;
         }
-        public string GetFirstName()
+         public override string ToString()
         {
-            return _FirstName;
+            string us = $"Name: {FirstName} {LastName} " +
+                $"\nEmailAddress: {EmailAddress} " +
+                $"\nUsername: {Username} " +
+                $"\nPassword: {Password} ";
+            return us;
         }
-        public void SetFirstName(string FirstName)
-        {
-            _FirstName = FirstName;
-        }
-        public string GetLastName()
-        {
-            return _LastName;
-        }
-        public void SetLastName(string LastName)
-        {
-            _LastName = LastName;
-        }
-        public string GetEmailAddress()
-        {
-            return _EmailAddress;
-        }
-        public void SetEmailAddress(string EmailAddress)
-        {
-            _EmailAddress = EmailAddress;
-        }
-        public string GetUsername()
-        {
-            return _Username;
-        }
-        public void SetUsername(string Username)
-        {
-            _Username = Username;
-        }
-        public string GetPassword()
-        {
-            return _Password;
-        }
-        public void SetPassword(string Password)
-        {
-            _Password = Password;
-        }  
         public UserData Retrieve() 
         {
             return new UserData();
@@ -77,12 +45,47 @@ namespace BusinessLogic
         {
             var isValid = true; 
             
-            if(string.IsNullOrWhiteSpace(_FirstName)) isValid = false;
-            if(string.IsNullOrWhiteSpace(_LastName)) isValid = false;
-            if(string.IsNullOrWhiteSpace(_EmailAddress)) isValid = false;
-            if(string.IsNullOrWhiteSpace(_Username)) isValid = false;
-            if(string.IsNullOrWhiteSpace(_Password)) isValid = false;
+            if(string.IsNullOrWhiteSpace(FirstName))
+            {
+                Console.WriteLine("First name is required to continue!");
+                isValid = false;
+            } 
+            if(string.IsNullOrWhiteSpace(LastName)) 
+            {
+                Console.WriteLine("Last name is required to continue!");
+                isValid = false;
+            } 
+            if(string.IsNullOrWhiteSpace(EmailAddress)) 
+            {
+                Console.WriteLine("EmailAddress is required to continue!");
+                isValid = false;
+            } 
+            if(string.IsNullOrWhiteSpace(Username)) 
+            {
+                Console.WriteLine("Username is required to continue!");
+                isValid = false;
+            } 
+            if(string.IsNullOrWhiteSpace(Password)) 
+            {
+                Console.WriteLine("Password is required to continue!");
+                isValid = false;
+            } 
             return isValid;
+            
+        }
+        public bool CredentialCheck()
+        {
+            var hasCreds = true;
+
+            if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentNullException("Username is required.");
+                const int MinUsernameLength = 5; if (Username.Length < MinUsernameLength) throw new ArgumentNullException("Username must contain at least 5 letters!");
+                const int MaxUsernameLength = 15; if (Username.Length > MaxUsernameLength) throw new ArgumentNullException("Username can't contain over 20 letters!");
+            if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentNullException("Password is required.");
+                    const int MinPasswordLength = 5; if (Password.Length < MinPasswordLength) throw new ArgumentNullException("Password must contain at least 6 letters!");
+                    const int MaxPasswordLength = 15; if (Password.Length > MaxPasswordLength) throw new ArgumentNullException("Password can't contain over 25 letters!");
+            return hasCreds;
+    
+
         }
     }
 }

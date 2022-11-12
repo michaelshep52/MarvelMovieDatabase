@@ -1,4 +1,5 @@
-﻿
+﻿using System.Runtime.InteropServices.ComTypes;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,8 @@ using System.IO;
 using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using System.Globalization;
+using System.Text.Json;
+
 
 
 
@@ -19,70 +22,153 @@ namespace MarvelDatabase
 {
     public class Program 
     {        
+        
+        protected static int origRow;
+        protected static int origCol;
+
+        protected static void WriteAt(string s, int x, int y)
+        {
+        try
+            {
+            Console.SetCursorPosition(origCol+x, origRow+y);
+            Console.Write(s);
+            }
+        catch (ArgumentOutOfRangeException e)
+            {
+            Console.Clear();
+            Console.WriteLine(e.Message);
+            }
+        }
         public static void Main(string[] args)
         {
-            List<UserData> users = new List<UserData>();
+            Console.Clear();
+            origRow = Console.CursorTop;
+            origCol = Console.CursorLeft;   
 
             Console.WriteLine("Welcome to the Marvel Movie Database!");
+            Console.WriteLine("");
+
             Console.WriteLine("Please choose from the following options to get started:");
             Console.WriteLine("1. New User");
             Console.WriteLine("2. Existing User");
             Console.WriteLine("3. Exit");
-            int UserStatus = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Enter: ");
+            int UserStatus = Convert.ToInt32(Console.ReadLine());            
 
-            if (UserStatus == 1) 
+            for (int u = 0; u < UserStatus; u++)
             {
                 var userData = new UserData();
-                //UserData();
-                Console.WriteLine("Please create a Account.");
-                Console.Write("Enter First name: ");
-                string FirstName = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(FirstName)) throw new ArgumentNullException("First name is required.");
 
-                Console.Write("Enter Last name: ");
-                string LastName = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(LastName)) throw new ArgumentNullException("Last name is required.");
+                if (UserStatus == 1) 
+                {
+                    Console.WriteLine("Please create a Account.");
+                    Console.WriteLine("");
+                    Console.Write("Enter First name: ");
+                    userData.FirstName = Console.ReadLine()!;
+                    Console.WriteLine("");
+                    
+                    Console.Write("Enter Last name: ");
+                    userData.LastName = Console.ReadLine()!;
+                    Console.WriteLine("");
 
-                Console.Write("Enter EmailAddress: ");
-                string EmailAddress = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(EmailAddress)) throw new ArgumentNullException("EmailAddress is required.");
+                    Console.Write("Enter EmailAddress: ");
+                    userData.EmailAddress = Console.ReadLine()!;
+                    Console.WriteLine("");
 
-                Console.Write("Create a vaild Username: ");
-                string Username = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentNullException("Username is required.");
+                    Console.Write("Create a vaild Username: ");
+                    userData.Username = Console.ReadLine()!;
+                    Console.WriteLine("");
 
-                Console.Write("Create a vaild Password: ");
-                string Password = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentNullException("Password is required.");
-                users.Add(userData);
-                Console.WriteLine("Thank you for creating an account!");
-            };
-            if (UserStatus == 2) 
-            {
-                Console.WriteLine("Please Login to Account.");
-                Console.Write("Enter Username: ");
-                string Username = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(Username)) throw new ArgumentNullException("Username is required.");
-                const int MinUsernameLength = 5; if (Username.Length < MinUsernameLength) throw new ArgumentNullException("Username must contain at least 5 letters!");
-                const int MaxUsernameLength = 20; if (Username.Length > MaxUsernameLength) throw new ArgumentNullException("Username can't contain over 20 letters!");
-                Console.Write("Enter Password: ");
-                string Password = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(Password)) throw new ArgumentNullException("Password is required.");
-                const int MinPasswordLength = 6; if (Password.Length < MinPasswordLength) throw new ArgumentNullException("Password must contain at least 6 letters!");
-                const int MaxPasswordLength = 25; if (Password.Length > MaxPasswordLength) throw new ArgumentNullException("Password can't contain over 25 letters!");
-                Console.WriteLine("Thank you for Loging into your Account.");
+                    Console.Write("Create a vaild Password: ");
+                    userData.Password = Console.ReadLine()!;
+                    Console.WriteLine("");
+                    userData.Validate();
+                    
+                    Console.WriteLine("Thank you for creating an account!");
+                    
+
+                    var jsonString = JsonSerializer.Serialize(userData);
+                    var jsonDirectory =  Path.Combine(Directory.GetCurrentDirectory(), "data");
+                    if (!Directory.Exists(jsonDirectory)) {
+                        Directory.CreateDirectory(jsonDirectory);
+                    }
+                    File.WriteAllText(Path.Combine(jsonDirectory, "user.json"), jsonString);
+                    Console.WriteLine(jsonString);
+                    var jsonFilePath = Path.Combine(jsonDirectory, "user.json");
+
+                    break;
+                };
+                if (UserStatus == 2) 
+                {
+                    var activeUser = new BusinessLogic.ActiveUser(); 
+
+                    Console.WriteLine("");
+                    Console.WriteLine("Please Login to Account.");
+                    Console.WriteLine("");
+                    Console.Write("Enter Username: ");
+                    userData.Username = Console.ReadLine()!;
+
+                    
+                    Console.Write("Enter Password: ");
+                    userData.Password = Console.ReadLine()!;
+                    userData.CredentialCheck();
+
+                   
+                    var jsonDirectory =  Path.Combine(Directory.GetCurrentDirectory(), "data");
+                    var jsonFilePath = Path.Combine(jsonDirectory, "user.json");
+                    var contents = File.ReadAllText(jsonFilePath);
+                    JsonSerializer.Deserialize<UserData>(contents);
+                    activeUser.FindActiveUser();
+
+                    if (userData.Username == userData.Username && userData.Password == userData.Password)
+                    {
+                        Console.WriteLine("You have successfully logged in!!");
+                        break;
+                    }
+                    else if (userData.Username != userData.Username || userData.Password != userData.Password)
+                    {
+                        Console.WriteLine("Your username or password is incorect, try again !!!");
+                        Console.ReadLine();
+                        break;
+                    }
+                    
+                    break;
+                }
             }
+            Console.Clear();
+            origRow = Console.CursorTop;
+            origCol = Console.CursorLeft;
+
             //MovieData();
-            Console.WriteLine("");
-            Console.Write("How many movies would you like to view: ");
-            var numberOfMovies = int.Parse(Console.ReadLine()!);
+            Console.Write("Here is a full list of our Marvel Universe Movies: ");
+            Console.ReadLine();
 
-            for (int n = 0; n < numberOfMovies; n++)
-            {
-                Console.Write("Enter a Movie: ");
-                var FindTitle = Console.ReadLine()!; 
-
+            while (true)
+            {    
+                Console.WriteLine("");
+                Console.WriteLine("Please select from the following movies:");
                 string[] csvLines = System.IO.File.ReadAllLines(@"MCUMovies.csv");
+
+                var movieTitles = new List<string>();
+                var movieId = new List<string>();
+                
+                for (int i = 0; i < csvLines.Length; i++)
+                {
+                    string[] rowData = csvLines[i].Split(";");
+                    movieId.Add(rowData[0]);
+                    movieTitles.Add(rowData[1]);
+                }
+
+                Console.WriteLine("Titles: ");
+                for (int i = 1; i < movieTitles.Count; i++)
+                {
+                    Console.WriteLine($"{movieId[i]}:  {movieTitles[i]}");
+                }
+                Console.ReadLine();
+
+                Console.Write("Enter a Movie Id: ");
+                var FindId = Convert.ToInt32(Console.ReadLine()); 
+                Console.WriteLine("");
 
                 //Movies
                 var movies = new List<Movie>();
@@ -94,14 +180,31 @@ namespace MarvelDatabase
                     movies.Add(mov);
                 }
                 //returns Elements in the list
-                for (int i = 0; i < movies.Count; i++)
+                for (int i = 1; i < movies.Count;)
                 {
-                    var result = movies.Where(m => m.Title == FindTitle).FirstOrDefault();
+                    var result = movies.Where(m => m.Id == FindId).FirstOrDefault();
                     Console.WriteLine(result.ToString());
+                    break;
+                }
+                Console.WriteLine("");
+                Console.Write("View another movie? Yes or No:  ");
+                var movieOption = Console.ReadLine().ToUpper();
+
+                if (movieOption == "YES") 
+                {
+                    Console.WriteLine("Please continue viewing!");
+                    Console.ReadLine();
+                }
+                if (movieOption ==  "NO") 
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("Thank you for using viewing our movies!");
+                    break;
                 }
             }
-            
             Console.ReadLine();
         }
+        
     }
 }
+
