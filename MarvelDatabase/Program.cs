@@ -102,20 +102,21 @@ namespace MarvelDatabase
                     Console.WriteLine("");
                     Console.Write("Enter Username: ");
                     userData.Username = Console.ReadLine()!;
-                    if (!Regex.Match(userData.Username, path).Success)
+                    if (Regex.Match(userData.Username, path).Success)
                     {
                         Console.WriteLine("Invaild Username");
                         return;
                     }
                     Console.Write("Enter Password: ");
                     userData.Password = Console.ReadLine()!;
-                    if (!Regex.Match(userData.Password, path).Success)
+                    if (Regex.Match(userData.Password, path).Success)
                     {
                         Console.WriteLine("Invalid Password");
                         return;
                     }
                     userData.CredentialCheck();
                     Console.WriteLine("You have successfully logged in!!");       
+                    break;
                 }
             }      
             Console.ReadLine();
