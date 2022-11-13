@@ -1,4 +1,8 @@
-﻿using System.Runtime.InteropServices.ComTypes;
+﻿using System.Text.RegularExpressions;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Net;
+using System.Reflection.Metadata;
+using System.Runtime.InteropServices.ComTypes;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices;
 using System;
@@ -14,9 +18,6 @@ using CsvHelper;
 using CsvHelper.Configuration.Attributes;
 using System.Globalization;
 using System.Text.Json;
-
-
-
 
 namespace MarvelDatabase
 {
@@ -58,6 +59,8 @@ namespace MarvelDatabase
             for (int u = 0; u < UserStatus; u++)
             {
                 var userData = new UserData();
+                string path = @"User.csv";
+                string delimiter = ",";
 
                 if (UserStatus == 1) 
                 {
@@ -83,58 +86,40 @@ namespace MarvelDatabase
                     userData.Password = Console.ReadLine()!;
                     Console.WriteLine("");
                     userData.Validate();
-                    
+
+                    string appendText = $"{userData.FirstName}{delimiter}{userData.LastName}{delimiter}{userData.EmailAddress}{delimiter}" + 
+                                        $"{userData.Username}{delimiter}{userData.Password}{Environment.NewLine}";
+                    File.AppendAllText(path, appendText);
+
                     Console.WriteLine("Thank you for creating an account!");
-                    
-
-                    var jsonString = JsonSerializer.Serialize(userData);
-                    var jsonDirectory =  Path.Combine(Directory.GetCurrentDirectory(), "data");
-                    if (!Directory.Exists(jsonDirectory)) {
-                        Directory.CreateDirectory(jsonDirectory);
-                    }
-                    File.WriteAllText(Path.Combine(jsonDirectory, "user.json"), jsonString);
-                    Console.WriteLine(jsonString);
-                    var jsonFilePath = Path.Combine(jsonDirectory, "user.json");
-
                     break;
                 };
                 if (UserStatus == 2) 
                 {
-                    var activeUser = new BusinessLogic.ActiveUser(); 
-
+                    string readText = File.ReadAllText(path);
                     Console.WriteLine("");
                     Console.WriteLine("Please Login to Account.");
                     Console.WriteLine("");
                     Console.Write("Enter Username: ");
                     userData.Username = Console.ReadLine()!;
-
-                    
+                    if (!Regex.Match(userData.Username, path).Success)
+                    {
+                        Console.WriteLine("Invaild Username");
+                        return;
+                    }
                     Console.Write("Enter Password: ");
                     userData.Password = Console.ReadLine()!;
+                    if (!Regex.Match(userData.Password, path).Success)
+                    {
+                        Console.WriteLine("Invalid Password");
+                        return;
+                    }
                     userData.CredentialCheck();
-
-                   
-                    var jsonDirectory =  Path.Combine(Directory.GetCurrentDirectory(), "data");
-                    var jsonFilePath = Path.Combine(jsonDirectory, "user.json");
-                    var contents = File.ReadAllText(jsonFilePath);
-                    JsonSerializer.Deserialize<UserData>(contents);
-                    activeUser.FindActiveUser();
-
-                    if (userData.Username == userData.Username && userData.Password == userData.Password)
-                    {
-                        Console.WriteLine("You have successfully logged in!!");
-                        break;
-                    }
-                    else if (userData.Username != userData.Username || userData.Password != userData.Password)
-                    {
-                        Console.WriteLine("Your username or password is incorect, try again !!!");
-                        Console.ReadLine();
-                        break;
-                    }
-                    
-                    break;
+                    Console.WriteLine("You have successfully logged in!!");       
                 }
-            }
+            }      
+            Console.ReadLine();
+        
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
@@ -142,8 +127,9 @@ namespace MarvelDatabase
             //MovieData();
             Console.Write("Here is a full list of our Marvel Universe Movies: ");
             Console.ReadLine();
-
-            while (true)
+            
+            string input = "";
+            do
             {    
                 Console.WriteLine("");
                 Console.WriteLine("Please select from the following movies:");
@@ -169,6 +155,12 @@ namespace MarvelDatabase
                 Console.Write("Enter a Movie Id: ");
                 var FindId = Convert.ToInt32(Console.ReadLine()); 
                 Console.WriteLine("");
+                if (FindId >= 31)
+                {
+                    Console.WriteLine("Enter a valid number!");
+                    break;
+                }
+                Console.WriteLine("");
 
                 //Movies
                 var movies = new List<Movie>();
@@ -192,19 +184,17 @@ namespace MarvelDatabase
 
                 if (movieOption == "YES") 
                 {
+                    Console.WriteLine("");
                     Console.WriteLine("Please continue viewing!");
                     Console.ReadLine();
                 }
-                if (movieOption ==  "NO") 
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("Thank you for using viewing our movies!");
-                    break;
-                }
             }
+            while (!input.ToUpper().Equals("NO"));
+            Console.WriteLine("Thank yous for viewing our App have an amazing day!");
             Console.ReadLine();
         }
-        
+
     }
+    
 }
 

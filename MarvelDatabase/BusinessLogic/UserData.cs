@@ -9,33 +9,34 @@ namespace BusinessLogic
 {
     public class UserData
     {
-        public string? FirstName { get; set;}
-        public string? LastName { get; set; }
-        public string? EmailAddress { get; set; }
-        public string? Username { get; set; }
-        public string? Password { get; set; }
-        
-        public UserData() { }
-
-        public UserData(string firstName, string lastName, string emailAddress, string username, string password)
+        public UserData()
         {
-            FirstName = firstName;
-            LastName = lastName;
-            EmailAddress = emailAddress;
-            Username = username;
-            Password = password;
+            
         }
-         public override string ToString()
+        public string? FirstName;
+        public string? LastName;
+        public string? EmailAddress;
+        public string? Username;
+        public string? Password;
+       
+        public UserData(string rowData)
+        {
+           string[] data = rowData.Split(',');
+           // Parse Data into properties
+           this.FirstName = data[0];
+           this.LastName = data[1];
+           this.EmailAddress = data[2];
+           this.Username = data[3];
+           this.Password = data[4];
+        }
+
+        public override string ToString()
         {
             string us = $"Name: {FirstName} {LastName} " +
                 $"\nEmailAddress: {EmailAddress} " +
                 $"\nUsername: {Username} " +
                 $"\nPassword: {Password} ";
             return us;
-        }
-        public UserData Retrieve() 
-        {
-            return new UserData();
         }
         public bool Save()
         {
