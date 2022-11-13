@@ -19,3 +19,6 @@ This is a Movie Database in console app for searching via Movie ID to find all c
 *Multiple conditional statements 
 *Pull and push from CSV's 
 *Creates a User Account and pushes to a CSV to store *Multiple Methods: User Validate(), User CredentialCheck(), Movie ToString(), User ToString(), and WriteAt(). *Multiple for loops and a single while loop.
+
+#### References
+*https://www.themoviedb.org
