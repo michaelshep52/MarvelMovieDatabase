@@ -119,8 +119,6 @@ namespace MarvelDatabase
                     break;
                 }
             }      
-            Console.ReadLine();
-        
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
@@ -151,8 +149,7 @@ namespace MarvelDatabase
                 {
                     Console.WriteLine($"{movieId[i]}:  {movieTitles[i]}");
                 }
-                Console.ReadLine();
-
+                
                 Console.Write("Enter a Movie Id: ");
                 var FindId = Convert.ToInt32(Console.ReadLine()); 
                 Console.WriteLine("");
@@ -190,7 +187,8 @@ namespace MarvelDatabase
                     Console.ReadLine();
                 }
             }
-            while (!input.ToUpper().Equals("NO"));
+            while (input.ToUpper().Equals("NO"));
+            Console.WriteLine("");
             Console.WriteLine("Thank yous for viewing our App have an amazing day!");
             Console.ReadLine();
         }
