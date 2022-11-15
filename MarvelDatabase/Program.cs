@@ -125,7 +125,7 @@ namespace MarvelDatabase
                 {
                     Console.WriteLine($"{movieId[i]}:  {movieTitles[i]}");
                 }
-                
+                Console.WriteLine("");
                 Console.Write("Enter a Movie Id: ");
                 var FindId = Convert.ToInt32(Console.ReadLine()); 
                 Console.WriteLine("");
