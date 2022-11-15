@@ -64,28 +64,9 @@ namespace MarvelDatabase
 
                 if (UserStatus == 1) 
                 {
-                    Console.WriteLine("Please create a Account.");
-                    Console.WriteLine("");
-                    Console.Write("Enter First name: ");
-                    userData.FirstName = Console.ReadLine()!;
-                    Console.WriteLine("");
-                    
-                    Console.Write("Enter Last name: ");
-                    userData.LastName = Console.ReadLine()!;
-                    Console.WriteLine("");
-
-                    Console.Write("Enter EmailAddress: ");
-                    userData.EmailAddress = Console.ReadLine()!;
-                    Console.WriteLine("");
-
-                    Console.Write("Create a vaild Username: ");
-                    userData.Username = Console.ReadLine()!;
-                    Console.WriteLine("");
-
-                    Console.Write("Create a vaild Password: ");
-                    userData.Password = Console.ReadLine()!;
-                    Console.WriteLine("");
+                    userData.CreateUserAccount();
                     userData.Validate();
+                    userData.CredentialCheck();
 
                     string appendText = $"{userData.FirstName}{delimiter}{userData.LastName}{delimiter}{userData.EmailAddress}{delimiter}" + 
                                         $"{userData.Username}{delimiter}{userData.Password}{Environment.NewLine}";
@@ -96,27 +77,23 @@ namespace MarvelDatabase
                 };
                 if (UserStatus == 2) 
                 {
+                    
                     string readText = File.ReadAllText(path);
-                    Console.WriteLine("");
-                    Console.WriteLine("Please Login to Account.");
-                    Console.WriteLine("");
-                    Console.Write("Enter Username: ");
-                    userData.Username = Console.ReadLine()!;
-                    if (Regex.Match(userData.Username, path).Success)
+                    userData.UserSignIn();
+                    
+                    string[] splitArray = userData.Username.Split();
+                    bool ifFound = File.ReadLines("User.csv")
+                        .Any(line => splitArray.Any(line.Contains));
+                    if (ifFound == true) 
                     {
-                        Console.WriteLine("Invaild Username");
-                        return;
+                        Console.WriteLine("You have successfully logged in!!");       
+                        break;
                     }
-                    Console.Write("Enter Password: ");
-                    userData.Password = Console.ReadLine()!;
-                    if (Regex.Match(userData.Password, path).Success)
+                    if (ifFound == false) 
                     {
-                        Console.WriteLine("Invalid Password");
-                        return;
+                        Console.WriteLine("Invaild Username and/or Password try again!");
+                        continue;
                     }
-                    userData.CredentialCheck();
-                    Console.WriteLine("You have successfully logged in!!");       
-                    break;
                 }
             }      
             Console.Clear();
@@ -127,7 +104,6 @@ namespace MarvelDatabase
             Console.Write("Here is a full list of our Marvel Universe Movies: ");
             Console.ReadLine();
             
-            string input = "";
             do
             {    
                 Console.WriteLine("");
@@ -158,11 +134,8 @@ namespace MarvelDatabase
                     Console.WriteLine("Enter a valid number!");
                     break;
                 }
-                Console.WriteLine("");
-
                 //Movies
                 var movies = new List<Movie>();
-
                 //Split each row into column of data
                 for (int i = 1; i < csvLines.Length; i++)
                 {
@@ -173,23 +146,23 @@ namespace MarvelDatabase
                 for (int i = 1; i < movies.Count;)
                 {
                     var result = movies.Where(m => m.Id == FindId).FirstOrDefault();
-                    Console.WriteLine(result.ToString());
+                    Console.WriteLine(result?.ToString());
                     break;
                 }
                 Console.WriteLine("");
                 Console.Write("View another movie? Yes or No:  ");
-                var movieOption = Console.ReadLine().ToUpper();
+                var movieOption = Console.ReadLine()?.ToUpper();
 
                 if (movieOption == "YES") 
                 {
                     Console.WriteLine("");
-                    Console.WriteLine("Please continue viewing!");
-                    Console.ReadLine();
+                    Console.WriteLine("Please continue viewing!");  
                 }
+                if (movieOption == "NO") break;
             }
-            while (input.ToUpper().Equals("NO"));
+            while (true);
             Console.WriteLine("");
-            Console.WriteLine("Thank yous for viewing our App have an amazing day!");
+            Console.WriteLine("Thank yous for viewing! Have an amazing day!");
             Console.ReadLine();
         }
 

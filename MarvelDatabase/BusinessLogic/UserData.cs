@@ -42,6 +42,42 @@ namespace BusinessLogic
         {
             return true;
         }
+        public bool CreateUserAccount()
+        {
+            Console.WriteLine("Please create a Account.");
+            Console.WriteLine("");
+            Console.Write("Enter First name: ");
+            FirstName = Console.ReadLine()!;
+            Console.WriteLine("");
+            
+            Console.Write("Enter Last name: ");
+            LastName = Console.ReadLine()!;
+            Console.WriteLine("");
+
+            Console.Write("Enter EmailAddress: ");
+            EmailAddress = Console.ReadLine()!;
+            Console.WriteLine("");
+
+            Console.Write("Create a vaild Username: ");
+            Username = Console.ReadLine()!;
+            Console.WriteLine("");
+
+            Console.Write("Create a vaild Password: ");
+            Password = Console.ReadLine()!;
+            Console.WriteLine("");
+            return true;
+        }
+        public bool UserSignIn()
+        {
+            Console.WriteLine("");
+            Console.WriteLine("Please Login to Account.");
+            Console.WriteLine("");
+            Console.Write("Enter Username: ");
+            Username = Console.ReadLine()!;
+            Console.Write("Enter Password: ");
+            Password = Console.ReadLine()!;
+            return true;
+        }
         public bool Validate()
         {
             var isValid = true; 
