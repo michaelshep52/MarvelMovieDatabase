@@ -77,23 +77,26 @@ namespace MarvelDatabase
                 };
                 if (UserStatus == 2) 
                 {
-                    
-                    string readText = File.ReadAllText(path);
-                    userData.UserSignIn();
-                    
-                    string[] splitArray = userData.Username.Split();
-                    bool ifFound = File.ReadLines("User.csv")
-                        .Any(line => splitArray.Any(line.Contains));
-                    if (ifFound == true) 
+                    do
                     {
-                        Console.WriteLine("You have successfully logged in!!");       
-                        break;
+                        string readText = File.ReadAllText(path);
+                        userData.UserSignIn();
+                        
+                        string[] splitArray = userData.Username.Split();
+                        bool ifFound = File.ReadLines("User.csv")
+                            .Any(line => splitArray.Any(line.Contains));
+                        if (ifFound == true) 
+                        {
+                            Console.WriteLine("You have successfully logged in!!");       
+                            break;
+                        }
+                        if (ifFound == false) 
+                        {
+                            Console.WriteLine("Invaild Username and/or Password try again!");
+                            //continue;
+                        }
                     }
-                    if (ifFound == false) 
-                    {
-                        Console.WriteLine("Invaild Username and/or Password try again!");
-                        continue;
-                    }
+                    while(true);
                 }
             }      
             Console.Clear();
