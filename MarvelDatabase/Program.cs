@@ -97,6 +97,7 @@ namespace MarvelDatabase
                         }
                     }
                     while(true);
+                    break;
                 }
             }      
             Console.Clear();
@@ -105,7 +106,6 @@ namespace MarvelDatabase
 
             //MovieData();
             Console.Write("Here is a full list of our Marvel Universe Movies: ");
-            Console.ReadLine();
             
             do
             {    
